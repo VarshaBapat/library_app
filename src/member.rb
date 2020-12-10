@@ -9,6 +9,7 @@ class Member
         @address = member_details[:address]
         @books_array = []
         @return_books_array = []
+        # yet to be implemented - for TDD
 		@returned_books = [] # this is to track the borrowing history
         @@member_id += 1
     end
@@ -26,11 +27,14 @@ class Member
     end
 
     def show_books_pending
-    # to be implemented during TDD
+        pending_books = @books_array - @return_books_array
+        @returned_books << @return_books_array
+        @returned_books.flatten!
+        return pending_books
     end
 
     def show_borrow_history
-    # to be implemented during TDD  
+        return @returned_books 
     end
 
     # this method prints a welcome message to the user and also gives them a new membership number.
