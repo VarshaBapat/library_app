@@ -4,9 +4,22 @@ require_relative ("member.rb")
 # class MyOwnErrorClass < StandardError
 # end
 
+class InvalidMemberDetails < StandardError
+end
 
 def write_to_file(member_details)
-# to be implemented during error handling using BEGIN - RESCUE - END
+    # Here is a scenario where we try to search for a file to open it and write to it
+    #  this begin rescue block ensures that if there is an error while during the file open / write operation in the BEGIN block, it is handled in the rescue block
+    begin
+        # This is a behaviour that mimicks storing data to a DB - for now its just a file that we are dealing with
+        file = File.open("../data/members.yml","a+"){ |file| file.write(member_details.to_yaml)}
+        if file
+            puts "New member details saved successfully to file"
+        end
+    rescue
+        puts "File not found"
+        puts "Could not save member details to the file"
+    end
 end
 
 def get_details
@@ -21,12 +34,19 @@ def get_details
 end
 
 def validate_details(member_details)
-	# to be implemented during error handling using raise custom error
+	raise InvalidMemberDetails if(member_details[:first_name].length == 0 || member_details[:last_name].length == 0 || member_details[:address].length == 0)
+	return true
 end
 
 def create_member
     member_details = get_details
-    # to be implemented during error handling using raise custom error
+    # This begin rescue end block ensures that the user enters valid inputs by raising a InvalidMemberDetails error which extends StandardError class.
+    begin
+		validate_details(member_details)
+    rescue
+        puts "You did not enter complete member details. Please try again"
+        return false
+	end
     member = Member.new(member_details)
     # puts member calls the to_s method of the Member class
     puts member

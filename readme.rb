@@ -4,3 +4,15 @@
 
 # All about YAML files
 # https://blog.stackpath.com/yaml/
+
+
+# Invalid User Inputs
+# Outside our control - Network , File read / write, Gems (Third party code)
+# Incorrect Logic - Zero Division Error
+# Syntax errors
+# begin
+    
+
+# rescue => exception
+    
+# end
