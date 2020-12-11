@@ -20,26 +20,29 @@ describe Member do
 	end
 end
 
-describe 'Show books to be returned' do
+describe 'Show books pending for return' do
+	# check how many books are pending for return - how many books are remaining with the member 
 	member_details = {first_name: "Cookie", last_name: "Monster", address: "Brisbane"}
+	member = Member.new(member_details)
+	member.books_array = ["book1","book2","book3","book4","book5","book6"] # these are the books that were borrowed by the member
+	member.return_books_array = ["book1","book2","book3"] # these are the books that were returned by the member.
 	it 'Shows the books not returned' do
-		member = Member.new(member_details)
-		member.books_array = ["book1","book2","book3","book4","book5","book6"]
-		member.return_books_array = ["book1","book2","book3"]
-		expect(member.show_books_pending).to eq(["book4","book5","book6"])		
+		# expect "show_books_pending" to return "a list of books that are pending for return"
+		expect(member.show_books_pending).to eq(["book4","book5","book6"])	
 	end
 end
 
+
 describe 'Member Borrow history' do
+	member_details = {first_name: "Cookie", last_name: "Monster", address: "Brisbane"}
+	member = Member.new(member_details)
+	member.borrow_new_book("book1")
+	# @books_array = ["book1"]
+	member.borrow_new_book("book2")
+	# @books_array = ["book1","book2"]
+	member.prepare_books_to_return("book1")
+	# @return_books_array = ["book1"]
 	it 'shows the books that a member has read' do
-		member_details = {first_name: "Cookie", last_name: "Monster", address: "Brisbane"}
-		member = Member.new(member_details)
-		member.borrow_new_book("book1")
-		member.borrow_new_book("book2")
-		member.prepare_books_to_return("book1")
-		member.show_books_pending
-		expect(member.returned_books.length).to eq 1
-		expect(member.returned_books[0]).to eq("book1")
 		expect(member.show_borrow_history).to eq(["book1"])
 	end
 end

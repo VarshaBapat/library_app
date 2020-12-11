@@ -28,13 +28,12 @@ class Member
 
     def show_books_pending
         pending_books = @books_array - @return_books_array
-        @returned_books << @return_books_array
-        @returned_books.flatten!
-        return pending_books
+        return pending_books      
     end
 
     def show_borrow_history
-        return @returned_books 
+        @returned_books << @return_books_array
+        return @returned_books.flatten!
     end
 
     # this method prints a welcome message to the user and also gives them a new membership number.
